@@ -1,0 +1,64 @@
+CC=gcc
+FLAGS=-Wall -Werror -Wextra
+TEST_FLAGS=-g
+MAC_FLAGS=-lcheck -lm
+LINUX_FLAGS=-lcheck -lsubunit -lrt -lpthread -lm
+GCOV_FLAGS=-fprofile-arcs -ftest-coverage
+VALGRIND_FLAGS=--leak-check=full
+FILES=$(wildcard s21_*.c)
+OBJ=$(patsubst %.c,%.o,$(FILES))
+TEST_FILES=$(wildcard ./tests/s21_test_*.c)
+MYLIB = s21_math.a
+OS := $(shell uname -s)
+ifeq ($(OS),Darwin)
+    OPEN=open
+endif
+ifeq ($(OS),Linux)
+    OPEN=xdg-open
+endif
+all: s21_math.a 
+.PHONY: all test memory_test s21_math.a gcov_report clean rebuild
+s21_math.a: $(FILES)
+    $(CC) -c $(FLAGS) $(FILES)
+    ar rc $@ $(OBJ)
+    ranlib $@
+    rm -rf *.o
+test: s21_math.a
+ifeq ($(OS),Darwin)
+    $(CC) $(FLAGS) $(TEST_FILES) $< -o test $(MAC_FLAGS)
+else
+    $(CC) $(FLAGS) $(TEST_FILES) $< -o test $(LINUX_FLAGS)
+endif
+    ./test
+gcov_report: clean
+ifeq ($(OS),Darwin)
+    $(CC) $(FLAGS) $(GCOV_FLAGS) $(FILES) $(TEST_FILES) -o test $(MAC_FLAGS)
+else
+    $(CC) $(FLAGS) $(GCOV_FLAGS) $(FILES) $(TEST_FILES) -o test $(LINUX_FLAGS)
+endif
+    ./test
+    lcov -t "s21_test" -o postreport.info -c -d .
+    genhtml -o report postreport.info
+    $(OPEN) report/index.html
+style_check:
+    clang-format -i -style=google *.c *.h
+    clang-format -n -style=google *.c *.h
+memory_check: s21_math.a
+    $(CC) $(TEST_FLAGS) $(FLAGS) $(TEST_FILES) $< -o memory_test $(LINUX_FLAGS)
+    CK_FORK=no valgrind $(VALGRIND_FLAGS) ./memory_test
+browser_install:
+    sudo apt install chromium-browser
+    sudo apt install w3m
+    $(OPEN) report/index.html
+clean_gcov:
+    rm -rf *.gcda
+    rm -rf *.gcno
+    rm -rf test
+    rm -rf report
+    rm -rf postreport.info
+clean: clean_gcov
+    rm -rf *.o
+    rm -rf *.a
+    rm -rf test
+    rm -rf memory_test
+rebuild: clean all

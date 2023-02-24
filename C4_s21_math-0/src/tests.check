@@ -1,0 +1,582 @@
+#include <math.h>
+#include <stdio.h>
+#include <limits.h>
+
+#include "s21_math.h"
+    
+
+#test sin_test1
+    long double s21_res = round(s21_sin(4)*10000000) / 10000000;
+    long double res = round(sin(4)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test2
+    long double s21_res = round(s21_sin(-6)*10000000) / 10000000;
+    long double res = round(sin(-6)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test3
+    long double s21_res = round(s21_sin(M_PI)*10000000) / 10000000;
+    long double res = round(sin(M_PI)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test4
+    long double s21_res = round(s21_sin(-M_PI)*10000000) / 10000000;
+    long double res = round(sin(-M_PI)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test5
+    long double s21_res = round(s21_sin(M_PI/2)*10000000) / 10000000;
+    long double res = round(sin(M_PI/2)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test6
+    long double s21_res = round(s21_sin(-M_PI/2)*10000000) / 10000000;
+    long double res = round(sin(-M_PI/2)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test sin_test7
+    ck_assert_ldouble_nan(s21_sin(NAN));
+
+#test sin_test8
+    ck_assert_ldouble_nan(s21_sin(INFINITY));
+
+#test sin_test9
+    ck_assert_ldouble_nan(s21_sin(-INFINITY));
+
+
+#test cos_test1
+    long double s21_res = round(s21_cos(4)*10000000) / 10000000;
+    long double res = round(cos(4)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test cos_test2
+    long double s21_res = round(s21_cos(-6)*10000000) / 10000000;
+    long double res = round(cos(-6)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test cos_test3
+    long double s21_res = round(s21_cos(M_PI/2)*10000000) / 10000000;
+    long double res = round(cos(M_PI/2)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test cos_test4
+    long double s21_res = round(s21_cos(-M_PI/2)*10000000) / 10000000;
+    long double res = round(cos(-M_PI/2)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test cos_test5
+    long double s21_res = round(s21_cos(M_PI)*10000000) / 10000000;
+    long double res = round(cos(M_PI)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test cos_test6
+    ck_assert_ldouble_nan(s21_cos(NAN));
+
+#test cos_test7
+    ck_assert_ldouble_nan(s21_cos(INFINITY));
+
+#test cos_test8
+    ck_assert_ldouble_nan(s21_cos(-INFINITY));
+
+
+
+#test abs_test1
+    ck_assert_int_eq(s21_abs(1), abs(1));
+
+#test abs_test2
+    ck_assert_int_eq(s21_abs(-5), abs(-5));
+
+#test abs_test3
+    ck_assert_double_eq(s21_abs(INT_MAX), abs(INT_MAX));
+
+#test abs_test4
+    ck_assert_double_eq(s21_abs(-INT_MAX), abs(-INT_MAX));
+
+
+
+#test fabs_test1
+    ck_assert_ldouble_eq(s21_fabs(34.42), fabs(34.42));
+
+#test fabs_test2
+    ck_assert_ldouble_eq(s21_fabs(-231.61), fabs(-231.61));
+
+#test fabs_test3
+    ck_assert_ldouble_infinite(s21_fabs(INFINITY));
+
+#test fabs_test4
+    ck_assert_ldouble_infinite(s21_fabs(-INFINITY));
+
+#test fabs_test5
+    ck_assert_ldouble_nan(s21_fabs(NAN));
+
+
+#test exp_test1
+    long double s21_res = round(s21_exp(4)*10000000)/10000000;
+    long double res = round(exp(4)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test exp_test2
+    long double s21_res = round(s21_exp(0.4)*10000000)/10000000;
+    long double res = round(exp(0.4)*10000000)/10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test exp_test3
+    long double s21_res = s21_exp(0);
+    long double res = exp(0);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test exp_test4
+    long double s21_res = s21_exp(INFINITY);
+    long double res = exp(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test exp_test5
+    long double s21_res = s21_exp(-INFINITY);
+    long double res = exp(-INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test exp_test6
+    long double s21_res = s21_exp(NAN);
+    ck_assert_ldouble_nan(s21_res);
+
+
+#test fmod_test1
+    long double s21_res = s21_fmod(7.5, 2);
+    long double res = fmod(7.5, 2);
+    ck_assert_ldouble_eq(s21_res, res);  // res  = 1.5
+
+#test fmod_test2
+    long double s21_res = s21_fmod(7, 2);
+    long double res = fmod(7, 2);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 1
+
+#test fmod_test3
+    long double s21_res = s21_fmod(9, 3);
+    long double res = fmod(9, 3);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 0
+
+#test fmod_test4
+    long double s21_res = s21_fmod(-4, 3);
+    long double res = fmod(-4, 3);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -1
+
+#test fmod_test5
+    long double s21_res = s21_fmod(4, -3);
+    long double res = fmod(4, -3);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 1
+
+#test fmod_test6
+    long double s21_res = s21_fmod(-4, -3);
+    long double res = fmod(-4, -3);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -1
+
+#test fmod_test7
+    long double s21_res = s21_fmod(4, INFINITY);
+    long double res = fmod(4, INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 4
+
+
+#test acos_test1
+    long double s21_res = s21_acos(0);
+    long double res = acos(0);
+    ck_assert_ldouble_eq(s21_res, res);  // res  = 1.570796327
+
+#test acos_test2
+    long double s21_res = s21_acos(1);
+    long double res = acos(1);
+    ck_assert_ldouble_eq(s21_res, res);  // res  = 0.000000000
+
+#test acos_test3
+    long double s21_res = s21_acos(-1);
+    long double res = acos(-1);
+    ck_assert_ldouble_eq(s21_res, res);  // res  = 3.141592654
+
+#test acos_test4
+    long double s21_res = s21_acos(-3);
+    ck_assert_ldouble_nan(s21_res);  // res  = nan
+
+#test acos_test5
+    long double s21_res = s21_acos(4);
+    ck_assert_ldouble_nan(s21_res);  // res  = nan
+
+#test acos_test6
+    long double s21_res = s21_acos(INFINITY);
+    ck_assert_ldouble_nan(s21_res);  // res  = nan
+
+#test acos_test7
+    long double s21_res = s21_acos(-INFINITY);
+    ck_assert_ldouble_nan(s21_res);  // res  = nan
+
+
+#test tan_test1
+    long double s21_res = s21_tan(0);
+    long double res = tan(0);
+    ck_assert_ldouble_eq(s21_res, res);  // res = 0.000000000 
+
+#test tan_test2  
+    long double s21_res = round(s21_tan(0.4)*10000000) / 10000000;
+    long double res = round(tan(0.4)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 0.422793219
+
+#test tan_test3
+    long double s21_res = round(s21_tan(-0.6)*10000000) / 10000000;
+    long double res = round(tan(-0.6)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = -0.684136808 
+
+#test tan_test4
+    long double s21_res = round(s21_tan(1)*10000000) / 10000000;
+    long double res = round(tan(1)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 1.557407725 
+
+#test tan_test5
+    long double s21_res = round(s21_tan(-1)*10000000) / 10000000;
+    long double res = round(tan(-1)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = -1.557407725 
+
+#test tan_test6
+    long double s21_res = round(s21_tan(-3)*10000000) / 10000000;
+    long double res = round(tan(-3)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 0.142546543
+
+#test tan_test7
+    long double s21_res = round(s21_tan(4)*10000000) / 10000000;
+    long double res = round(tan(4)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 1.157821282 
+
+#test tan_test8
+    long double s21_res = round(s21_tan(M_PI/2)*10000000) / 10000000;
+    long double res = round(tan(M_PI/2)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 1.157821282 
+
+#test tan_test9
+    long double s21_res = round(s21_tan(-M_PI/2)*10000000) / 10000000;
+    long double res = round(tan(-M_PI/2)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);  // res = 1.157821282
+
+#test tan_test10
+    long double s21_res = s21_tan(INFINITY);
+    ck_assert_ldouble_nan(s21_res);  // res =  nan  
+
+#test tan_test11
+    long double s21_res = s21_tan(-INFINITY);
+    ck_assert_ldouble_nan(s21_res);  // res =  nan  
+
+#test tan_test12
+    long double s21_res = s21_tan(NAN);
+    ck_assert_ldouble_nan(s21_res);  // res =  nan  
+
+
+#test sqrt_test1
+    long double s21_res = s21_sqrt(16);
+    long double res = sqrt(16);
+    ck_assert_ldouble_eq(s21_res, res);  // res  = 4
+
+#test sqrt_test2
+    long double s21_res = s21_sqrt(-10);
+    ck_assert_ldouble_nan(s21_res);   // res  = nan
+
+#test sqrt_test3
+    long double s21_res = s21_sqrt(0);
+    long double res = sqrt(0);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 0
+
+#test sqrt_test4
+    long double s21_res = s21_sqrt(NAN);
+    ck_assert_ldouble_nan(s21_res);   // res  = nan
+
+#test sqrt_test5
+    long double s21_res = s21_sqrt(INFINITY);
+    long double res = sqrt(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = INFINITY
+
+#test sqrt_test6
+    long double s21_res = round((s21_sqrt(0.09)*10000000)/10000000);
+    long double res = round((sqrt(0.09)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 0.5
+
+
+#test atan_test1
+    long double s21_res = round((s21_atan(-sqrt(3))*10000000)/10000000);
+    long double res = round((atan(-sqrt(3))*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/3   +
+
+#test atan_test2
+    long double s21_res = s21_atan(-1);
+    long double res = atan(-1);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/4   +
+
+#test atan_test3
+    long double s21_res = round((s21_atan(-sqrt(3)/3)*10000000)/10000000);
+    long double res = round((atan(-sqrt(3)/3)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/6    +
+
+#test atan_test4
+    long double s21_res = round((s21_atan(sqrt(3))*10000000)/10000000);
+    long double res = round((atan(sqrt(3))*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/3     +
+
+#test atan_test5
+    long double s21_res = s21_atan(1);
+    long double res = atan(1);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/4     +
+
+#test atan_test6
+    long double s21_res = round((s21_atan(sqrt(3)/3)*10000000)/10000000);
+    long double res = round((atan(sqrt(3)/3)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/6     +
+
+#test atan_test7
+    long double s21_res = round((s21_atan(0.467)*10000000)/10000000);
+    long double res = round((atan(0.467)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  =           +
+
+#test atan_test8
+    long double s21_res = s21_atan(0);
+    long double res = atan(0);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = 0         +     
+
+#test atan_test9
+    long double s21_res = round((s21_atan(PI/2)*10000000)/10000000);
+    long double res = round((atan(PI/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  =          
+
+#test atan_test10
+    long double s21_res = round((s21_atan(-PI/2)*10000000)/10000000);
+    long double res = round((atan(-PI/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  =      
+
+#test atan_test11
+    long double s21_res = s21_atan(INFINITY);
+    long double res = atan(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);   // res  =     
+
+#test atan_test12
+    long double s21_res = s21_atan(-INFINITY);
+    long double res = atan(-INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);   // res  =     
+
+#test atan_test13
+    long double s21_res = s21_atan(NAN);
+    ck_assert_ldouble_nan(s21_res);   // res  =     
+
+
+#test asin_test1
+    long double s21_res = round((s21_asin(-sqrt(3)/2)*10000000)/10000000);
+    long double res = round((asin(-sqrt(3)/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/3   +
+
+#test asin_test2
+    long double s21_res = s21_asin(-1);
+    long double res = asin(-1);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/2        -
+
+#test asin_test3
+    long double s21_res = round((s21_asin(-sqrt(2)/2)*10000000)/10000000);
+    long double res = round((asin(-sqrt(2)/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/4    +
+
+#test asin_test4
+    long double s21_res = round((s21_asin(-1/2)*10000000)/10000000);
+    long double res = round((asin(-1/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = -pi/6     +
+
+#test asin_test5
+    long double s21_res = round((s21_asin(sqrt(3)/2)*10000000)/10000000);
+    long double res = round((asin(sqrt(3)/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/3   +
+
+#test asin_test6
+    long double s21_res = s21_asin(1);
+    long double res = asin(1);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/2          -
+
+#test asin_test7
+    long double s21_res = round((s21_asin(sqrt(2)/2)*10000000)/10000000);
+    long double res = round((asin(sqrt(2)/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/4    +
+
+#test asin_test8
+    long double s21_res = round((s21_asin(1/2)*10000000)/10000000);
+    long double res = round((asin(1/2)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/6     +
+
+#test asin_test9
+    long double s21_res = round((s21_asin(0.7636)*10000000)/10000000);
+    long double res = round((asin(0.7636)*10000000)/10000000);
+    ck_assert_ldouble_eq(s21_res, res);   // res  = pi/6     +
+
+#test asin_test10
+    long double s21_res = s21_asin(12);
+    ck_assert_ldouble_nan(s21_res);   // res  = nan     +
+
+#test asin_test11
+    long double s21_res = s21_asin(INFINITY);
+    ck_assert_ldouble_nan(s21_res);   // res  = nan    +
+
+
+#test log_test1
+    long double s21_res = round(s21_log(10) * 10000000) / 10000000;
+    long double res = round(log(10) * 10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test log_test2
+    long double s21_res = round(s21_log(0.03) * 10000000) / 10000000;
+    long double res = round(log(0.03) * 10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test log_test3
+    long double s21_res = s21_log(0);
+    long double res = log(0);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test log_test4
+    long double s21_res = s21_log(INFINITY);
+    long double res = log(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test log_test5
+    long double s21_res = s21_log(-13);
+    ck_assert_ldouble_nan(s21_res);
+
+#test log_test6
+    long double s21_res = s21_log(-INFINITY);
+    ck_assert_ldouble_nan(s21_res);
+
+
+#test pow_test1
+    long double s21_res = round(s21_pow(2, 8)*10000000) / 10000000;
+    long double res = round(pow(2, 8)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test2
+    long double s21_res = (int)(s21_pow(2.23, 8.23) * 1000000) / (long double)1000000;
+    long double res = (int)(pow(2.23, 8.23) * 1000000) / (long double)1000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test3
+    long double s21_res = round(s21_pow(2.23, 8)*10000000) / 10000000;
+    long double res = round(pow(2.23, 8)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test4
+    long double s21_res = ceil(s21_pow(2, 8.23)*1000000) / 1000000;
+    long double res = ceil(pow(2, 8.23)*1000000) / 1000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test5
+    long double s21_res = s21_pow(NAN, NAN);
+    ck_assert_ldouble_nan(s21_res);
+
+#test pow_test6
+    long double s21_res = s21_pow(-2, 2.23);
+    ck_assert_ldouble_nan(s21_res);
+
+#test pow_test7
+    long double s21_res = round(s21_pow(2, -8)*10000000) / 10000000;
+    long double res = round(pow(2, -8)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test8
+    long double s21_res = round(s21_pow(1, INFINITY)*10000000) / 10000000;
+    long double res = round(pow(1, INFINITY)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test9
+    long double s21_res = round(s21_pow(2, NAN)*10000000) / 10000000;
+    ck_assert_ldouble_nan(s21_res);
+
+#test pow_test10
+    long double s21_res = round(s21_pow(INFINITY, -2.23)*10000000) / 10000000;
+    long double res = round(pow(INFINITY, -2.23)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test11
+    long double s21_res = round(s21_pow(-INFINITY, -2.23)*10000000) / 10000000;
+    long double res = round(pow(-INFINITY, -2.23)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test12
+    long double s21_res = round(s21_pow(-INFINITY, 2.23)*10000000) / 10000000;
+    long double res = round(pow(-INFINITY, 2.23)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test13
+    long double s21_res = round(s21_pow(2.23, INFINITY)*10000000) / 10000000;
+    long double res = round(pow(2.23, INFINITY)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test14
+    long double s21_res = round(s21_pow(0.23, INFINITY)*10000000) / 10000000;
+    long double res = round(pow(0.23, INFINITY)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test15
+    long double s21_res = round(s21_pow(2.23, -INFINITY)*10000000) / 10000000;
+    long double res = round(pow(2.23, -INFINITY)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test pow_test16
+    long double s21_res = round(s21_pow(0.23, -INFINITY)*10000000) / 10000000;
+    long double res = round(pow(0.23, -INFINITY)*10000000) / 10000000;
+    ck_assert_ldouble_eq(s21_res, res);
+
+
+#test ceil_test1
+    long double s21_res = s21_ceil(0);
+    long double res = ceil(0);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test ceil_test2
+    long double s21_res = s21_ceil(-1.234);
+    long double res = ceil(-1.234);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test ceil_test3
+    long double s21_res = s21_ceil(1.234);
+    long double res = ceil(1.234);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test ceil_test4
+    long double s21_res = s21_ceil(INFINITY);
+    long double res = ceil(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test ceil_test5
+    long double s21_res = s21_ceil(-INFINITY);
+    long double res = ceil(-INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test ceil_test6
+    long double s21_res = s21_ceil(NAN);
+    ck_assert_ldouble_nan(s21_res);
+
+
+#test floor_test1
+    long double s21_res = s21_floor(0);
+    long double res = floor(0);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test floor_test2
+    long double s21_res = s21_floor(-1.234);
+    long double res = floor(-1.234);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test floor_test3
+    long double s21_res = s21_floor(1.234);
+    long double res = floor(1.234);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test floor_test4
+    long double s21_res = s21_floor(INFINITY);
+    long double res = floor(INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test floor_test5
+    long double s21_res = s21_floor(-INFINITY);
+    long double res = floor(-INFINITY);
+    ck_assert_ldouble_eq(s21_res, res);
+
+#test floor_test6
+    long double s21_res = s21_floor(NAN);
+    ck_assert_ldouble_nan(s21_res);

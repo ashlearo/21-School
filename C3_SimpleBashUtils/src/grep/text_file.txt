@@ -1,0 +1,3 @@
+This is a sample text file. It contains
+It supports numbers like 1, 2, 3 etc. as well as
+This is a sample text file. It's repeated two times.
