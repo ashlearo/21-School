@@ -47,6 +47,9 @@ https://brew.sh/index_ru
 Homebrew: установка и настройка в goinfre  S21
 https://21-school-by-students.notion.site/Homebrew-goinfre-af3acfc9cfee424481a8a08c204ff272
 
+Homebrew устанавливает программы в их собственные директории и создает символьную ссылку на них в /usr/local.
+https://brew.sh/index_ru
+
 **********************************************************************************************
 
 GCOV — ПОКРЫТИЕ GNU
@@ -63,8 +66,13 @@ https://wikipedia.tel/Check_(библиотека_модульного_тест�
 Advanced Features
 https://libcheck.github.io/check/doc/check_html/check_4.html
 
+unit-тесты при помощи check.h (ближе к концу)
+https://youtu.be/y7gyOmW4V4s
 
+генерация html gcov+lcov
+https://medium.com/@naveen.maltesh/generating-code-coverage-report-using-gnu-gcov-lcov-ee54a4de3f11
 
+**********************************************************************************************
 
 Командная работа
 https://docs.google.com/spreadsheets/d/1gJVuJwLSPxRxrcGHJu2nqHfW2ED59sUv0zS4OvZ6iOI/edit#gid=0
