@@ -94,6 +94,8 @@ int getopt(int argc, char * const argv[],const char *optstring);
 https://mk.cs.msu.ru/images/9/97/Prac_318_command_line_in_cpp.pdf
 http://nskhuman.ru/helpdb/manrus.php?ncmd=756
 
+https://azrael.digipen.edu/~mmead/www/Courses/CS180/getopt.html#INTRO
+
 getopt_long()
 + разбор длинных флагов
 https://firststeps.ru/linux/r.php?11
